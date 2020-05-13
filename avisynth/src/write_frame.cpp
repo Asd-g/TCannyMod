@@ -121,7 +121,7 @@ write_edge_direction(const int32_t* dirp, const uint8_t* hystp, uint8_t* dstp,
 write_gradient_mask_t get_write_gradient_mask(bool scale, arch_t arch) noexcept
 {
 #if defined(__AVX2__)
-    if (arch == HAS_AVX2) {
+    if (arch == arch_t::HAS_AVX2) {
         return scale ? write_gradient_mask<__m256, __m256i, true>
             : write_gradient_mask<__m256, __m256i, false>;
     }
@@ -135,7 +135,7 @@ write_gradient_mask_t get_write_gradient_mask(bool scale, arch_t arch) noexcept
 write_gradient_direction_t get_write_gradient_direction(arch_t arch) noexcept
 {
 #if defined(__AVX2__)
-    if (arch == HAS_AVX2) {
+    if (arch == arch_t::HAS_AVX2) {
         return write_gradient_direction<__m256i>;
     }
 #endif
@@ -145,7 +145,7 @@ write_gradient_direction_t get_write_gradient_direction(arch_t arch) noexcept
 write_edge_direction_t get_write_edge_direction(arch_t arch) noexcept
 {
 #if defined(__AVX2__)
-    if (arch == HAS_AVX2) {
+    if (arch == arch_t::HAS_AVX2) {
         return write_edge_direction<__m256i>;
     }
 #endif

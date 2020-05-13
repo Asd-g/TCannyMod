@@ -1,8 +1,3 @@
-avisynth/src/Release/*
-avisynth/src/Debug/*
-avisynth/src/x64/*
-avisynth/src/.vs/*
-avisynth/archive/*
 vapoursynth/*
 *.opensdf
 *.opendb
@@ -18,3 +13,8 @@ vapoursynth/*
 *.avs
 *.exe
 *.db
+avisynth/build/.vs/*
+avisynth/build/Debug/*
+avisynth/build/Release/*
+avisynth/build/x64/*
+avisynth/archives/*

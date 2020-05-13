@@ -53,7 +53,7 @@ static const float* get_tangent(int idx) noexcept
         -0.414213538169860839843750f, -0.414213538169860839843750f,
     };
 
-    return tangent + 8 * idx;
+    return tangent + static_cast<int64_t>(8) * idx;
 }
 
 
@@ -284,18 +284,18 @@ get_edge_detection(bool use_sobel, bool calc_dir, arch_t arch) noexcept
     using std::make_tuple;
     std::map<std::tuple<bool, bool, arch_t>, edge_detection_t> func;
 
-    func[make_tuple(false, false, HAS_SSE2)] = standard<__m128, __m128i, false>;
-    func[make_tuple(false, true, HAS_SSE2)] = standard<__m128, __m128i, true>;
-    func[make_tuple(true, false, HAS_SSE2)] = sobel<__m128, __m128i, false>;
-    func[make_tuple(true, true, HAS_SSE2)] = sobel<__m128, __m128i, true>;
+    func[make_tuple(false, false, arch_t::HAS_SSE2)] = standard<__m128, __m128i, false>;
+    func[make_tuple(false, true, arch_t:: HAS_SSE2)] = standard<__m128, __m128i, true>;
+    func[make_tuple(true, false, arch_t::HAS_SSE2)] = sobel<__m128, __m128i, false>;
+    func[make_tuple(true, true, arch_t::HAS_SSE2)] = sobel<__m128, __m128i, true>;
 #if defined(__AVX2__)
-    func[make_tuple(false, false, HAS_AVX2)] = standard<__m256, __m256i, false>;
-    func[make_tuple(false, true, HAS_AVX2)] = standard<__m256, __m256i, true>;
-    func[make_tuple(true, false, HAS_AVX2)] = sobel<__m256, __m256i, false>;
-    func[make_tuple(true, true, HAS_AVX2)] = sobel<__m256, __m256i, true>;
+    func[make_tuple(false, false, arch_t::HAS_AVX2)] = standard<__m256, __m256i, false>;
+    func[make_tuple(false, true, arch_t::HAS_AVX2)] = standard<__m256, __m256i, true>;
+    func[make_tuple(true, false, arch_t::HAS_AVX2)] = sobel<__m256, __m256i, false>;
+    func[make_tuple(true, true, arch_t::HAS_AVX2)] = sobel<__m256, __m256i, true>;
 #endif
 
-    arch_t a = arch == HAS_SSE41 ? HAS_SSE2 : arch;
+    arch_t a = arch == arch_t::HAS_SSE41 ? arch_t::HAS_SSE2 : arch;
 
     return func[make_tuple(use_sobel, calc_dir, a)];
 }
@@ -304,7 +304,7 @@ get_edge_detection(bool use_sobel, bool calc_dir, arch_t arch) noexcept
 non_max_suppress_t get_non_max_suppress(arch_t arch) noexcept
 {
 #if defined(__AVX2__)
-    if (arch == HAS_AVX2) {
+    if (arch == arch_t::HAS_AVX2) {
         return non_max_suppress<__m256, __m256i>;
     }
 #endif

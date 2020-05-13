@@ -34,7 +34,8 @@
 #include <windows.h>
 #include <avisynth.h>
 
-#define TCANNY_M_VERSION "1.3.0"
+#define TCANNY_M_VERSION "1.3.1"
+#define __AVX2__
 
 
 typedef IScriptEnvironment ise_t;
@@ -75,7 +76,7 @@ typedef void (__stdcall *write_edge_direction_t)(
     const size_t width, const size_t height);
 
 
-enum arch_t {
+enum class arch_t {
     HAS_SSE2,
     HAS_SSE41,
     HAS_AVX2,
@@ -136,9 +137,10 @@ class TCannyM : public GenericVideoFilter {
 public:
     TCannyM(PClip child, int mode, float sigma, float th_min, float th_max,
             int chroma, bool sobel, float scale, arch_t arch, const char* name,
-            bool is_plus);
+            bool is_plus, ise_t* env);
     ~TCannyM();
     PVideoFrame __stdcall GetFrame(int n, ise_t* env);
+    int __stdcall SetCacheHints(int cachehints, int frame_range);
 };
 
 
@@ -159,8 +161,4 @@ hysteresis(uint8_t* hystp, const size_t hpitch, float* blurp,
     const size_t bpitch, const int width, const int height,
     const float tmin, const float tmax) noexcept;
 
-extern bool has_sse2();
-extern bool has_sse41();
-extern bool has_avx();
-extern bool has_avx2();
 #endif

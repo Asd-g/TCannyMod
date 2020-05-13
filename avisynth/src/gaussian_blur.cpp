@@ -62,7 +62,7 @@ horizontal_blur(const float* hkernel, float* buffp, const int radius,
     for (size_t x = 0; x < width; x += step) {
         Vf sum = zero<Vf>();
         for (int i = -radius; i <= radius; ++i) {
-            Vf k = load<Vf>(hkernel + (i + radius) * step);
+            Vf k = load<Vf>(hkernel + (static_cast<int64_t>(i) + radius) * step);
             Vf val = loadu<Vf>(buffp + x + i);
             sum = madd(k, val, sum);
         }
@@ -125,12 +125,12 @@ gaussian_blur(const int radius, const float* kernel, const float* hkernel,
 gaussian_blur_t get_gaussian_blur(arch_t arch) noexcept
 {
 #if defined(__AVX2__)
-    if (arch == HAS_AVX2) {
-        return gaussian_blur<__m256, GB_MAX_LENGTH, HAS_AVX2>;
+    if (arch == arch_t::HAS_AVX2) {
+        return gaussian_blur<__m256, GB_MAX_LENGTH, arch_t::HAS_AVX2>;
     }
 #endif
-    if (arch == HAS_SSE41) {
-        return gaussian_blur<__m128, GB_MAX_LENGTH, HAS_SSE41>;
+    if (arch == arch_t::HAS_SSE41) {
+        return gaussian_blur<__m128, GB_MAX_LENGTH, arch_t::HAS_SSE41>;
     }
-    return gaussian_blur<__m128, GB_MAX_LENGTH, HAS_SSE2>;
+    return gaussian_blur<__m128, GB_MAX_LENGTH, arch_t::HAS_SSE2>;
 }

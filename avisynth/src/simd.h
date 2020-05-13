@@ -262,7 +262,7 @@ template <typename T, arch_t ARCH>
 T cvtu8_ps(const uint8_t* ptr);
 
 template <>
-SFINLINE __m128 cvtu8_ps<__m128, HAS_SSE2>(const uint8_t* ptr)
+SFINLINE __m128 cvtu8_ps<__m128, arch_t::HAS_SSE2>(const uint8_t* ptr)
 {
     const int32_t* p32 = reinterpret_cast<const int32_t*>(ptr);
     __m128i t = _mm_cvtsi32_si128(p32[0]);
@@ -273,7 +273,7 @@ SFINLINE __m128 cvtu8_ps<__m128, HAS_SSE2>(const uint8_t* ptr)
 }
 
 template <>
-SFINLINE __m128 cvtu8_ps<__m128, HAS_SSE41>(const uint8_t* ptr)
+SFINLINE __m128 cvtu8_ps<__m128, arch_t::HAS_SSE41>(const uint8_t* ptr)
 {
     const int32_t* p32 = reinterpret_cast<const int32_t*>(ptr);
     __m128i t = _mm_cvtsi32_si128(p32[0]);
@@ -510,7 +510,7 @@ SFINLINE __m256i cvtps_i32(const __m256& x)
 }
 
 template <>
-SFINLINE __m256 cvtu8_ps<__m256, HAS_AVX2>(const uint8_t* ptr)
+SFINLINE __m256 cvtu8_ps<__m256, arch_t::HAS_AVX2>(const uint8_t* ptr)
 {
     __m128i t0 = _mm_loadl_epi64(reinterpret_cast<const __m128i*>(ptr));
     __m256i t1 = _mm256_cvtepu8_epi32(t0);
