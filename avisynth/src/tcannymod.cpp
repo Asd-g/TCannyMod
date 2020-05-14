@@ -425,7 +425,7 @@ AvisynthPluginInit3(ise_t* env, const AVS_Linkage* const vectors)
              /*7*/   "[gmmax]f"
              /*8*/   "[opt]i", create_tcannymod, 0);
 
-    env->AddFunction("GBlur", "c[sigma]f[chroma]i[opt]i",
+    env->AddFunction("GBlur2", "c[sigma]f[chroma]i[opt]i",
                      create_gblur, 0);
 
     env->AddFunction("EMask", "c[sigma]f[gmmax]f[chroma]i[sobel]b[opt]i",
