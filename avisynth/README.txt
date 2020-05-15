@@ -70,7 +70,7 @@ Syntax:
 
  ------------------------------------------------------------------------
 
-    GBlur(clip, float "sigma", int "chroma")
+    GBlur2(clip, float "sigma", int "chroma")
 
     info:
         Gaussian blur filter. Just an alias of TCannyMod(mode=4).
@@ -118,13 +118,11 @@ Note:
 
     - Probabry, this filter is able to work on Avisynth+'s "MT_NICE_FILTER" mode.(from v1.0.0)
 
-    - TCannyMod_avx2.dll is compiled with /arch:AVX2.
-
 
 Requirements:
 
     Avisynth2.6.0/Avisynth+r2005 or greater.
-    Microsoft Visual C++ 2015 Redistributable Package
+    Microsoft Visual C++ 2019 Redistributable Package
     Windows Vista sp2 / 7 sp1 / 8.1 / 10
     SSE2 capable CPU
 
@@ -154,6 +152,13 @@ Changelog:
 
     1.3.0 (20160705)
         - Update avisynth.h to Avisynth+MT r2005.
+
+    1.3.1 (20200513)
+        - Add support for v8 interface
+        - Remove /arch:AVX2 requirement for AVX2/FMA3/AVX code
+
+    1.3.2 (20200515)
+        - Change GBlur function name to GBlur2
 
 
 Source code:

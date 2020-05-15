@@ -34,7 +34,7 @@
 #include <windows.h>
 #include <avisynth.h>
 
-#define TCANNY_M_VERSION "1.3.1"
+#define TCANNY_M_VERSION "1.3.2"
 #define __AVX2__
 
 
